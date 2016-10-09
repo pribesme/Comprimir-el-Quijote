@@ -7,10 +7,11 @@
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    LIBRARIES     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-import numpy as np
 import collections
 import time
+import json
+import codecs
+
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    CLASSES      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 class huffman_node(object):
     def __init__(self, value, key =  None,  left=None, right = None):
@@ -71,31 +72,28 @@ def huffman_codification(text):
     codes = get_path(huffman_tree)
     return codes
 
-def write_compressed_file(codes,text):
-    comp_file = open("quijote_huffman.txt","w")
-    comp_file.write("{codes:{")
-    for key,value in codes.items():
-        comp_file.write(key)
-        comp_file.write(":")
-        comp_file.write(value)
-        comp_file.write(",")
-    comp_file.write("},{text:")
-
+def write_json_file(codes,text):
+    data = {}
+    data["codes"] = codes
+    encoded = []
     for char in text:
-        comp_file.write(codes[char])
-    comp_file.write("}")
-    comp_file.close()
+        encoded.append(codes[char])
+
+    data["text"] = "".join(encoded)
+    with open('quijote_huffman.txt', 'w') as f:
+        f.write(json.dumps(data))
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    MAIN    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 def main():
     start_time = time.time()
     text = []
-    with open("prueba.txt") as file:
-        lines = list(file.read())
-        text.extend(lines)
+
+    f = codecs.open('prueba.txt', encoding='utf-8')
+    for lines in f:
+        text.extend(list(lines))
 
     codes = huffman_codification(text)
-    write_compressed_file(codes,text)
+    write_json_file(codes, text)
     print "Time =", time.time() - start_time, "s"
 
 if __name__ == "__main__":
