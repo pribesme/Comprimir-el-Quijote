@@ -1,0 +1,1 @@
+Esto es una prueba para ver cómo funciona mi algoritmo compresor de Huffman...espero que buen, ya que tampoco tengo tiempo infinito para acabarlo y, aunque esta prueba es un poco cutre, espero que también obtenga buenos resultados con el Quijote (cuando lo tenga por fin). 
