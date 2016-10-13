@@ -83,6 +83,7 @@ def write_binary_file(codes,text):
 
     encoded= "".join(encoded)
     data["text"] = bitstring.Bits(bin=encoded)
+    print data["text"]
 
     pickleFile = open("quijote_huffman.txt", 'wb')
     pickle.dump(data, pickleFile, pickle.HIGHEST_PROTOCOL)
