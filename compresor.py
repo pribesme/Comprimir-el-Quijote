@@ -9,8 +9,8 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    LIBRARIES     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import collections
 import time
-import json
-import codecs
+import bitstring
+import pickle
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    CLASSES      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 class huffman_node(object):
@@ -72,28 +72,38 @@ def huffman_codification(text):
     codes = get_path(huffman_tree)
     return codes
 
-def write_json_file(codes,text):
+
+def write_binary_file(codes,text):
+
     data = {}
     data["codes"] = codes
     encoded = []
     for char in text:
         encoded.append(codes[char])
 
-    data["text"] = "".join(encoded)
-    with open('quijote_huffman.txt', 'w') as f:
-        f.write(json.dumps(data))
+    encoded= "".join(encoded)
+    data["text"] = bitstring.Bits(bin=encoded)
+
+    pickleFile = open("quijote_huffman.txt", 'wb')
+    pickle.dump(data, pickleFile, pickle.HIGHEST_PROTOCOL)
+    pickleFile.close()
+
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    MAIN    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 def main():
     start_time = time.time()
     text = []
 
-    f = codecs.open('prueba.txt', encoding='utf-8')
-    for lines in f:
-        text.extend(list(lines))
+    #f = codecs.open('Twenty-Thousand-Leagues-Under-the-Sea-by-Jules-Verne.txt', encoding='utf-8')
+    with open('Twenty-Thousand-Leagues-Under-the-Sea-by-Jules-Verne.txt',"r") as f:
+        for lines in f:
+            text.extend(list(lines))
+
 
     codes = huffman_codification(text)
-    write_json_file(codes, text)
+
+    write_binary_file(codes, text)
+
     print "Time =", time.time() - start_time, "s"
 
 if __name__ == "__main__":
