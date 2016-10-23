@@ -9,21 +9,20 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    LIBRARIES     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 import time
-import json
 import bitstring
 import pickle
-import codecs
+
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    FUNCTIONS     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 def dict_invert(dict):
     inv = {}
     for key,value in dict.items():
-        inv[value] = key #key.encode("utf-8")
+        inv[value] = key
     return inv
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    MAIN    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 def main():
     start_time = time.time()
-    with codecs.open('quijote_huffman.txt',"r") as data_file:
+    with open('quijote_huffman.txt',"r") as data_file:
         data = pickle.load(data_file)
 
     codes = data["codes"]
